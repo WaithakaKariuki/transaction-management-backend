@@ -1,5 +1,5 @@
 class TransActionSerializer < ActiveModel::Serializer
-  attributes :created_at,:amount
+  attributes :created_at, :amount, :id, :account_id
 
-  has_many :accounts
+  belongs_to :account
 end

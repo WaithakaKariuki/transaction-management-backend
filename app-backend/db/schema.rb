@@ -10,28 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_06_220901) do
-  create_table "account_trans_actions", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "trans_action_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_account_trans_actions_on_account_id"
-    t.index ["trans_action_id"], name: "index_account_trans_actions_on_trans_action_id"
-  end
-
-  create_table "accounts", id: :string, force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2024_02_06_220812) do
+  create_table "accounts", id: :binary, force: :cascade do |t|
     t.integer "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "trans_actions", id: :string, force: :cascade do |t|
+  create_table "trans_actions", id: :binary, force: :cascade do |t|
     t.integer "amount"
+    t.binary "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_trans_actions_on_account_id"
   end
 
-  add_foreign_key "account_trans_actions", "accounts"
-  add_foreign_key "account_trans_actions", "trans_actions"
+  add_foreign_key "trans_actions", "accounts"
 end
