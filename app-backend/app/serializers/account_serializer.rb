@@ -1,3 +1,5 @@
 class AccountSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :balance, :id
+
+  has_many :trans_actions
 end

@@ -41,7 +41,7 @@ class AccountsController < ApplicationController
     end
 
     def account_params
-        params.permit(:balance, :transaction_ids)
+        params.permit(:balance, :trans_action_ids).to_h
     end
 
 end
