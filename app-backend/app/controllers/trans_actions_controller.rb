@@ -35,6 +35,10 @@ class TransActionsController < ApplicationController
         head :no_content
     end
 
+    def method_not_allowed
+        render json: { error: "Method Not Allowed: PUT requests are not allowed for this route" }, status: :method_not_allowed
+    end
+
     private
     def render_response_not_found
         render json:{error: ["Resource not found"]}, status: :not_found
@@ -47,5 +51,7 @@ class TransActionsController < ApplicationController
     def trans_action_params
         params.permit(:account_id, :amount)
     end
+
+
 
 end
