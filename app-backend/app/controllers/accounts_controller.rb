@@ -19,9 +19,10 @@ class AccountsController < ApplicationController
     def create 
         account = Account.find_by(id: params[:account_id])
         if account
-            subtract = (params[:amount]).to_int < 0 ? account.trans_actions[-1].amount + params[:amount] : params[:amount]
-            account.update!(balance: subtract)
-            account.trans_actions.create!(amount: subtract)
+            # make a change to account balance according to the last transaction amount.
+            change = account.trans_actions[-1].amount + params[:amount]
+            account.update!(balance: change)
+            account.trans_actions.create!(amount: params[:amount])
             render json: {account_id:account.id, amount:account.trans_actions[-1].amount,  transaction_id: account.trans_actions[0].id}, status: :created
         else
             account_id = params[:account_id] if is_blob?(params[:account_id])
