@@ -1,7 +1,9 @@
 class TransActionsController < ApplicationController
 
+    rescue_from ActionController::ParameterMissing, with: :render_bad_request
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
     rescue_from ActiveRecord::RecordNotFound, with: :render_response_not_found
+    before_action :check_content_type, only: [:create, :update]
 
     def index 
         trans_action = TransAction.all
@@ -15,9 +17,24 @@ class TransActionsController < ApplicationController
     end
 
     def create 
-        # byebug
-        trans_action = TransAction.create!(trans_action_params)
-        render json: {transaction_id: trans_action.id, status: :created}
+        trans_action = TransAction.find_by(account_id: params[:account_id])
+        if trans_action
+            change = trans_action.amount + params[:amount]
+            trans_action.account.update!(balance: change)
+            trans_action.update!(amount: params[:amount])
+            render json: {account_id:trans_action.account.id, amount:trans_action.amount,  transaction_id: trans_action.id}, status: :created
+        else   
+            account_id = params[:account_id] if is_blob?(params[:account_id])
+            account =Account.new(id: account_id, balance: params[:amount])         
+            if account.save
+            account_id = params[:account_id] if is_blob?(params[:account_id])
+            account.trans_actions.create!(trans_actions_params)
+            render json: {account_id:account.id, amount:account.trans_actions[0].amount,  transaction_id: account.trans_actions[0].id}, status: :created
+            else
+                render json: { error: "Bad Request: Missing required parameters" }, status: :bad_request
+            end
+            
+        end
     end
 
 
@@ -48,9 +65,20 @@ class TransActionsController < ApplicationController
         render json: {error: invalid.record.errors.full_messages }, status: :unprocessable_entity
     end
 
-    def trans_action_params
-        params.permit(:account_id, :amount)
+    def trans_actions_params
+        params.permit(:amount).to_h
+
     end
+
+    def check_content_type
+        unless request.content_type == "application/json"
+          render json: { error: "Unsupported Content-Type. Only application/json is allowed." }, status: :unsupported_media_type
+        end
+      end
+    
+      def is_blob?(data)
+        data.present? && data.to_s.bytesize >= 36
+      end
 
 
 

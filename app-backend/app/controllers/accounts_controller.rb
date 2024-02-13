@@ -10,31 +10,14 @@ class AccountsController < ApplicationController
         render json: account, include: ['transactions']
     end
 
-
     def show 
         account = Account.find(params[:id])
         render json: {account_id: account.id, balance: account.balance}, status: :ok
     end
 
     def create 
-        account = Account.find_by(id: params[:account_id])
-        if account
-            # make a change to account balance according to the last transaction amount.
-            change = account.trans_actions[-1].amount + params[:amount]
-            account.update!(balance: change)
-            account.trans_actions.create!(amount: params[:amount])
-            render json: {account_id:account.id, amount:account.trans_actions[-1].amount,  transaction_id: account.trans_actions[0].id}, status: :created
-        else
-            account_id = params[:account_id] if is_blob?(params[:account_id])
-            account =Account.new(id: account_id, balance: params[:amount])           
-            if account.save
-            account.trans_actions.create!(trans_actions_params)
-            render json: {account_id:account.id, amount:account.trans_actions[0].amount,  transaction_id: account.trans_actions[0].id}, status: :created
-            else
-                render json: { error: "Bad Request: Missing required parameters" }, status: :bad_request
-            end
-            
-        end
+        account = Account.create!(account_params)
+        render json: account, status: :created, include: ['transactions']
     end
 
     def update
@@ -66,19 +49,10 @@ class AccountsController < ApplicationController
         params.permit(:balance).to_h
     end
 
-    def trans_actions_params
-        params.permit(:amount).to_h
-
-    end
-
     def check_content_type
         unless request.content_type == "application/json"
           render json: { error: "Unsupported Content-Type. Only application/json is allowed." }, status: :unsupported_media_type
         end
-      end
-    
-      def is_blob?(data)
-        data.present? && data.to_s.bytesize >= 36
       end
 
 end

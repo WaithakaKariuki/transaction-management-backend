@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "/transactions", to:"trans_actions#index"
   get "/transactions/:id", to:"trans_actions#show"
-  post "/transactions", to:"accounts#create"
+  post "/transactions", to:"trans_actions#create"
   put "/transactions/:id", to:"trans_actions#update", via: [:patch]
   delete "/transactions", to:"trans_actions#destroy"
   # Defines the root path route ("/")
