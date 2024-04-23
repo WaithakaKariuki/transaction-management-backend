@@ -7,13 +7,13 @@ class TransActionsController < ApplicationController
 
     def index 
         trans_action = TransAction.all
-        render json: {transaction: trans_action}, status: :ok
+        render json: trans_action, status: :ok
     end
 
 
     def show 
         trans_action = find_transaction
-        render json: {transaction_id: trans_action.id, account_id: trans_action.account_id, amount: trans_action.amount, status: :ok }
+        render json: trans_action, status: :ok
     end
 
     def create 
@@ -21,15 +21,14 @@ class TransActionsController < ApplicationController
         if trans_action
             change = trans_action.amount + params[:amount]
             trans_action.account.update!(balance: change)
-            trans_action.update!(amount: params[:amount])
-            render json: {account_id:trans_action.account.id, amount:trans_action.amount,  transaction_id: trans_action.id}, status: :created
+            trans_action.update!(update_params)
+            render json: trans_action, status: :created
         else   
             account_id = params[:account_id] if is_blob?(params[:account_id])
             account =Account.new(id: account_id, balance: params[:amount])         
             if account.save
-            account_id = params[:account_id] if is_blob?(params[:account_id])
             account.trans_actions.create!(trans_actions_params)
-            render json: {account_id:account.id, amount:account.trans_actions[0].amount,  transaction_id: account.trans_actions[0].id}, status: :created
+            render json: trans_action, status: :created
             else
                 render json: { error: "Bad Request: Missing required parameters" }, status: :bad_request
             end
@@ -73,7 +72,6 @@ class TransActionsController < ApplicationController
 
     def trans_actions_params
         params.permit(:amount).to_h
-
     end
 
     def check_content_type
