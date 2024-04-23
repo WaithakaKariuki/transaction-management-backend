@@ -11,7 +11,7 @@ class AccountsController < ApplicationController
     end
 
     def show 
-        account = Account.find(params[:id])
+        account = find_account
         render json: {account_id: account.id, balance: account.balance}, status: :ok
     end
 
@@ -21,18 +21,23 @@ class AccountsController < ApplicationController
     end
 
     def update
-        account = Account.find(params[:id])
+        account = find_account
         account.update!(update_account_params)
         render json: account, status: :ok
     end
     
     def destroy 
-        account = Account.find(params[:id])
+        account = find_account
         account.destroy
         head :no_content
     end
 
     private
+
+    def find_account
+        Account.find(params[:id])
+    end
+
     def render_response_not_found
         render json:{error: ["Resource not found"]}, status: :not_found 
     end
