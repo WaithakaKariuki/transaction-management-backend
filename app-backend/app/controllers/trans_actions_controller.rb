@@ -12,7 +12,7 @@ class TransActionsController < ApplicationController
 
 
     def show 
-        trans_action = TransAction.find(params[:id])
+        trans_action = find_transaction
         render json: {transaction_id: trans_action.id, account_id: trans_action.account_id, amount: trans_action.amount, status: :ok }
     end
 
@@ -37,17 +37,14 @@ class TransActionsController < ApplicationController
         end
     end
 
-
     def update
-        update_params = { 
-            amount: params[:amount]}
-        trans_action = TransAction.find(params[:id])
+        trans_action = find_transaction
         TransAction.update!(update_params)
         render json: trans_action, status: :ok
     end
 
     def destroy 
-        trans_action = TransAction.find(id: params[:transaction_id])
+        trans_action = find_transaction
         trans_action.destroy
         head :no_content
     end
@@ -57,6 +54,15 @@ class TransActionsController < ApplicationController
     end
 
     private
+
+    def update_params
+       params.permit(:amount) 
+    end
+
+    def find_transaction
+        TransAction.find(params[:id])  
+    end
+
     def render_response_not_found
         render json:{error: ["Resource not found"]}, status: :not_found
     end
@@ -79,7 +85,5 @@ class TransActionsController < ApplicationController
       def is_blob?(data)
         data.present? && data.to_s.bytesize >= 36
       end
-
-
 
 end
