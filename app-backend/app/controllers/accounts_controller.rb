@@ -7,7 +7,7 @@ class AccountsController < ApplicationController
 
     def index 
         account = Account.all
-        render json: account, include: ['transactions']
+        render json: account
     end
 
     def show 
@@ -17,7 +17,7 @@ class AccountsController < ApplicationController
 
     def create 
         account = Account.create!(account_params)
-        render json: account, status: :created, include: ['transactions']
+        render json: account, status: :created
     end
 
     def update
