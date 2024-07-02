@@ -1,31 +1,21 @@
 # Transaction Management Backend 
 
-Your task is to build a backend app that allows the recording of financial transactions and viewing the transaction history.
+A backend app that allows the recording of financial transactions and viewing the transaction history.
 
 It should implement the [Transaction Management API specification](https://infra.devskills.app/transaction-management/api/3.1.0), which is defined in the [Open API](https://www.openapis.org/) format.
 
-You are free to use any Tech Stack of your choice but using Ruby is an added advantage.
+It is built in Ruby on Rails.
 
 ## Additional requirements
 
-- Do your best to make the [provided E2E tests](cypress/e2e/test.cy.js) pass.
-- Keep server data in a [SQLite](https://www.sqlite.org/index.html) database. We want to see how you design the database schema and SQL queries.
-- Avoid duplication and extract re-usable modules where it makes sense. We want to see your approach to creating a codebase that is easy to maintain.
-- Unit test one module of choice. There is no need to test the whole app, as we only want to understand what you take into consideration when writing unit tests.
+- All [provided E2E tests](cypress/e2e/test.cy.js) pass.
+- Utilizes [SQLite](https://www.sqlite.org/index.html) database. 
+- Avoids duplication and extract re-usable modules where it makes sense. Has an easy to maintain codebase.
 
 ## Getting started
 
 <details>
-  <summary>If you run into a problem</summary>
-
-  Navigate to [our community on GitHub](https://github.com/orgs/DevSkillsHQ/discussions/categories/help) to get assistance.
-
-</details>
-
-<details>
   <summary>Import a starter project</summary>
-
-  We have created a set of starter projects with different tech stacks to help you get started quickly.
 
   To import a starter project:
 
@@ -75,7 +65,7 @@ You are free to use any Tech Stack of your choice but using Ruby is an added adv
 
 ## Time estimate
 
-Between 2 - 3 hours + the time to set up the project/environment (we suggest importing one of the provided project starters to save time).
+Between 2 - 3 hours + the time to set up the project/environment.
 
 However, there is no countdown. The estimate is for you to plan your time. Keep in mind that how long you take to complete the assesment plays a part in your evaluation.
 
