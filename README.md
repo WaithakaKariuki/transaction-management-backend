@@ -1,4 +1,4 @@
-# Transaction Management Backend - LIII
+# Transaction Management Backend 
 
 Your task is to build a backend app that allows the recording of financial transactions and viewing the transaction history.
 
