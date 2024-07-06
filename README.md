@@ -54,7 +54,4 @@ It is built in Ruby on Rails.
 
 </details>
 
-## Time estimate
-
-Between 2 - 3 hours + the time to set up the project/environment.
 
