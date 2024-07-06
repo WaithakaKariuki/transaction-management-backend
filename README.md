@@ -54,21 +54,7 @@ It is built in Ruby on Rails.
 
 </details>
 
-## Submitting your solution for review
-
-1. Create a new `implementation` branch on this repository and push your code there.
-2. Create a new pull request from `implementation` **WITHOUT MERGING IT**.
-3. Indicate in your PR whether your tests are all passing or not (**IMPORTANT**).
-4. Indicate in your PR which module you have unit tested.
-5. Document the tech decisions you've made by creating a new review on your PR ([see how](https://www.loom.com/share/94ae305e7fbf45d592099ac9f40d4274)).
-6. Await further instructions from the hiring team.
-
 ## Time estimate
 
 Between 2 - 3 hours + the time to set up the project/environment.
 
-However, there is no countdown. The estimate is for you to plan your time. Keep in mind that how long you take to complete the assesment plays a part in your evaluation.
-
----
-
-Authored by [Alva Labs](https://www.alvalabs.io/).
